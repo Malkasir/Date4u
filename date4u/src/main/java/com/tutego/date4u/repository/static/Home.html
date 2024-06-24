@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<body>
+<script type="module">
+    import {request, gql} from 'https://esm.sh/graphql-request@7.0.1'
+    (async () => {
+        const query = gql`
+  {
+    datingEvents {
+      title
+      date
+    }
+  }`;
+        try {
+            const url = "http://localhost:8080/graphql";
+            const events = await request(url, query);
+            console.log(events);
+        } catch (error) { console.error(error); }
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+enum EventStatus {
+  PLANNED, ONGOING, COMPLETED, CANCELLED
+}
+
+type DatingLocation {
+  id: ID!
+  name: String!
+  events: [DatingEvent]
+}
+
+type DatingEvent {
+  id: ID!
+  title: String!
+  date: String!
+  status: EventStatus!
+  location: DatingLocation!
+}
+
+type Query {
+  # datingEvent(id: ID!): String
+  datingEvent(id: ID!): DatingEvent
+  datingEvents: [DatingEvent]
+  location(id: ID!): DatingLocation
+  locations: [DatingLocation]
+}
+
+input DatingEventInput {
+  title: String!
+  date: String!
+  status: EventStatus!
+  locationId: ID!
+}
+
+type Mutation {
+  createDatingEvent(input: DatingEventInput!): DatingEvent
+}

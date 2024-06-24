@@ -1,0 +1,146 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/profiles:
+    get:
+      tags:
+      - profile-rest-controller
+      operationId: profiles
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProfileDto"
+    post:
+      tags:
+      - profile-rest-controller
+      operationId: createProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProfileDto"
+  /api/stat/last-seen:
+    get:
+      tags:
+      - statistic-rest-controller
+      operationId: lastSeenStatistics
+      parameters:
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LastSeenStatistics"
+  /api/photos/{name}:
+    get:
+      tags:
+      - photo-rest-controller
+      operationId: photo
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            image/jpeg:
+              schema:
+                type: object
+components:
+  schemas:
+    ProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nickname:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        hornlength:
+          type: integer
+          format: int32
+        gender:
+          type: integer
+          format: int32
+        attractedToGender:
+          type: integer
+          format: int32
+        description:
+          type: string
+        lastseen:
+          type: string
+          format: date-time
+    Data:
+      type: object
+      properties:
+        x:
+          type: object
+          properties:
+            year:
+              type: integer
+              format: int32
+            month:
+              type: string
+              enum:
+              - JANUARY
+              - FEBRUARY
+              - MARCH
+              - APRIL
+              - MAY
+              - JUNE
+              - JULY
+              - AUGUST
+              - SEPTEMBER
+              - OCTOBER
+              - NOVEMBER
+              - DECEMBER
+            monthValue:
+              type: integer
+              format: int32
+            leapYear:
+              type: boolean
+        "y":
+          type: integer
+          format: int32
+    LastSeenStatistics:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Data"
